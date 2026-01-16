@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>משימת הסוכן החשאי - נחל סער</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+```
+    body {
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        min-height: 100vh;
+        padding: 15px;
+        direction: rtl;
+    }
+    
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        background: white;
+        border-radius: 20px;
+        padding: 25px;
+        box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+    }
+    
+    .header {
+        text-align: center;
+        margin-bottom: 25px;
+        padding-bottom: 15px;
+        border-bottom: 3px solid #667eea;
+    }
+    
+    .header h1 {
+        color: #667eea;
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+    
+    .subtitle {
+        color: #666;
+        font-size: 14px;
+    }
+    
+    .progress-bar {
+        background: #e0e0e0;
+        height: 25px;
+        border-radius: 15px;
+        margin: 15px 0;
+        overflow: hidden;
+        position: relative;
+    }
+    
+    .progress-fill {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+        height: 100%;
+        width: 0%;
+        border-radius: 15px;
+        transition: width 0.5s ease;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: white;
+        font-weight: bold;
+        font-size: 14px;
+    }
+    
+    .secret-word-container {
+        background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 25px;
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+    
+    .secret-word-title {
+        color: white;
+        text-align: center;
+        font-size: 16px;
+        margin-bottom: 15px;
+        font-weight: bold;
+    }
+    
+    .letter-boxes {
+        display: flex;
+        justify-content: center;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+    
+    .letter-box {
+        width: 40px;
+        height: 50px;
+        background: white;
+        border: 3px solid rgba(255,255,255,0.5);
+        border-radius: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 22px;
+        font-weight: bold;
+        color: #667eea;
+        box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    }
+    
+    .letter-box.revealed {
+        background: #ffd700;
+        border-color: #ffed4e;
+        animation: bounce 0.6s ease;
+    }
+    
+    .letter-box.space {
+        background: transparent;
+        border: none;
+        width: 15px;
+    }
+    
+    @keyframes bounce {
+        0%, 100% { transform: scale(1); }
+        50% { transform: scale(1.15); }
+    }
+    
+    .station {
+        background: #f8f9fa;
+        border-radius: 12px;
+        padding: 18px;
+        margin-bottom: 15px;
+        border-right: 5px solid #667eea;
+    }
+    
+    .station.completed {
+        background: #e8f5e9;
+        border-right-color: #4caf50;
+    }
+    
+    .station-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 12px;
+    }
+    
+    .station-title {
+        font-size: 16px;
+        font-weight: bold;
+        color: #333;
+    }
+    
+    .station-badge {
+        background: #667eea;
+        color: white;
+        padding: 4px 10px;
+        border-radius: 15px;
+        font-size: 12px;
+        font-weight: bold;
+    }
+    
+    .station.completed .station-badge {
+        background: #4caf50;
+    }
+    
+    .riddle {
+        background: white;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 12px;
+        font-style: italic;
+        color: #555;
+        border-right: 3px solid #ffd700;
+        font-size: 14px;
+    }
+    
+    .input-group {
+        display: flex;
+        gap: 8px;
+        margin-top: 12px;
+    }
+    
+    .letter-input {
+        flex: 1;
+        padding: 12px;
+        font-size: 20px;
+        text-align: center;
+        border: 2px solid #ddd;
+        border-radius: 8px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+    
+    .letter-input:focus {
+        outline: none;
+        border-color: #667eea;
+    }
+    
+    .submit-btn {
+        padding: 12px 22px;
+        background: #667eea;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        font-size: 15px;
+        font-weight: bold;
+        cursor: pointer;
+    }
+    
+    .submit-btn:active {
+        background: #5568d3;
+    }
+    
+    .feedback {
+        margin-top: 10px;
+        padding: 10px;
+        border-radius: 8px;
+        font-weight: bold;
+        text-align: center;
+        font-size: 13px;
+    }
+    
+    .feedback.success {
+        background: #d4edda;
+        color: #155724;
+        border: 2px solid #c3e6cb;
+    }
+    
+    .feedback.error {
+        background: #f8d7da;
+        color: #721c24;
+        border: 2px solid #f5c6cb;
+    }
+    
+    .completion-modal {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0,0,0,0.8);
+        align-items: center;
+        justify-content: center;
+        z-index: 1000;
+    }
+    
+    .completion-modal.show {
+        display: flex;
+    }
+    
+    .completion-content {
+        background: white;
+        padding: 35px;
+        border-radius: 20px;
+        text-align: center;
+        max-width: 90%;
+    }
+    
+    .completion-content h2 {
+        color: #667eea;
+        font-size: 28px;
+        margin-bottom: 15px;
+    }
+    
+    .final-word {
+        font-size: 32px;
+        font-weight: bold;
+        color: #f5576c;
+        margin: 15px 0;
+    }
+    
+    .trophy {
+        font-size: 70px;
+        margin-bottom: 15px;
+    }
+
+    .hidden {
+        display: none;
+    }
+</style>
+```
+
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>🕵️ משימת הסוכן החשאי 🕵️</h1>
+            <div class="subtitle">נחל סער - מסע המפלים</div>
+        </div>
+
+```
+    <div class="progress-bar">
+        <div class="progress-fill" id="progress">0%</div>
+    </div>
+
+    <div class="secret-word-container">
+        <div class="secret-word-title">✨ המילה הסודית ✨</div>
+        <div class="letter-boxes" id="letterBoxes"></div>
+    </div>
+
+    <div id="stations"></div>
+</div>
+
+<div class="completion-modal" id="completionModal">
+    <div class="completion-content">
+        <div class="trophy">🏆</div>
+        <h2>כל הכבוד סוכן חשאי!</h2>
+        <p style="font-size: 16px; margin-bottom: 15px;">
+            פיצחת את כל החידות וגילית את המילה הסודית:
+        </p>
+        <div class="final-word">עין קיניא</div>
+        <p style="font-size: 14px; color: #666; margin-top: 15px;">
+            עברת בהצלחה את כל 8 התחנות במסלול נחל סער!<br/>
+            אתה סוכן חשאי מוסמך! 🎖️
+        </p>
+    </div>
+</div>
+
+<script>
+    const stations = [
+        {
+            id: 1,
+            title: "תחנה 1: גשר הידידות",
+            riddle: "הגשר שלפניך הופצץ על ידי הצבא הסורי במלחמת ששת הימים. באיזו שנה במאה ה-20 הופצץ הגשר (שתי ספרות אחרונות)? הוסף 3 לתשובה - והאות שזה הערך הגימטרי שלה היא פתרון החידה.",
+            letter: "ע",
+            hint: "רמז: מלחמת ששת הימים היתה בשנת 1967. שתי ספרות אחרונות = 67. 67+3=70. איזו אות שווה 70 בגימטריה? ע!"
+        },
+        {
+            id: 2,
+            title: "תחנה 2: הטחנה העתיקה",
+            riddle: "טחנת הקמח שלפניך פעלה עד לפני חמישים שנה בערך. כיצד נקרא עיקרון הפעולה של הטחנה (באיזה כוח היא השתמשה)? האות השנייה של המילה היא פתרון החידה.",
+            letter: "י",
+            hint: "רמז: הטחנה עבדה בכוח ה-מ-י-ם. מה האות השנייה?"
+        },
+        {
+            id: 3,
+            title: "תחנה 3: הבריכות הראשונות",
+            riddle: "הסתכל על האבנים המעוגלות והחלקות בתוך המים. המים והזמן עיצבו אותן. איך קוראים לסוג האבנים האלו? האות הראשונה של המילה השנייה בכינוי האבנים היא התשובה לחידה.",
+            letter: "נ",
+            hint: "רמז: קוראים להן חלוקי נחל. מה האות הראשונה של המילה השנייה (נחל)?"
+        },
+        {
+            id: 4,
+            title: "תחנה 4: שביל המפלונים",
+            riddle: "איך נקראים העצים הגדולים שבשביל? הוסיפו 13 לערך הגימטרי של שם העץ והנה לכם התשובה לחידה הרביעית (באות).",
+            letter: "ק",
+            hint: "רמז: העצים הם אלון. א=1, ל=30, ו=6, ן=50. סה\"כ = 87. 87+13=100. איזו אות שווה 100? ק!"
+        },
+        {
+            id: 5,
+            title: "תחנה 5: המפלונים והתצפיות",
+            riddle: "עמוד ליד אחד המפלונים והקשב. חפש סלע גדול ליד המפלון - האם הסלע רטוב, לח, או יבש? אם רטוב לגמרי - האות היא ל. אם לח בחלקו - האות היא י. אם יבש - האות היא מ.",
+            letter: "י",
+            hint: "רמז: סלעים קרובים למפלון בדרך כלל לחים מרסיסי המים, אבל לא רטובים לגמרי!"
+        },
+        {
+            id: 6,
+            title: "תחנה 6: המעבר בכביש",
+            riddle: "איך קוראים ליישוב היהודי הקרוב ביותר אלינו? האות הראשונה שלו היא התשובה.",
+            letter: "נ",
+            hint: "רמז: היישוב היהודי הקרוב הוא נווה אטי\"ב. מה האות הראשונה?"
+        },
+        {
+            id: 7,
+            title: "תחנה 7: עצי הדפנה",
+            riddle: "קטוף עלה של דפנה (בעדינות!) והסתכל על הצורה שלו. האם הקצה של העלה מחודד, עגול, או שטוח? אם מחודד - האות היא י. אם עגול - האות היא ש. אם שטוח - האות היא ת.",
+            letter: "י",
+            hint: "רמז: לעלי דפנה יש קצה מחודד ויפה!"
+        },
+        {
+            id: 8,
+            title: "תחנה 8: מפל סער הגדול - סיום",
+            riddle: "איך נקרא השם המלא של העצים עם עלי הדפנה? האות הראשונה של המילה השנייה בכינוי שלהם היא התשובה.",
+            letter: "א",
+            hint: "רמז: הכינוי המלא הוא 'ער אציל'. מה האות הראשונה של המילה השנייה (אציל)?"
+        }
+    ];
+
+    const secretPhrase = "עין קיניא";
+    let completedStations = [];
+
+    function init() {
+        renderLetterBoxes();
+        renderStations();
+        updateProgress();
+    }
+
+    function renderLetterBoxes() {
+        const container = document.getElementById('letterBoxes');
+        container.innerHTML = '';
+        
+        // First word: עין (3 letters)
+        const firstWord = secretPhrase.substring(0, 3);
+        const firstRow = document.createElement('div');
+        firstRow.style.display = 'flex';
+        firstRow.style.gap = '6px';
+        firstRow.style.justifyContent = 'center';
+        firstRow.style.marginBottom = '10px';
+        
+        for (let i = 0; i < 3; i++) {
+            const box = document.createElement('div');
+            box.className = 'letter-box';
+            box.id = 'letter-' + i;
+            box.textContent = '?';
+            firstRow.appendChild(box);
+        }
+        container.appendChild(firstRow);
+        
+        // Second word: קיניא (5 letters) - skip the space at index 3
+        const secondRow = document.createElement('div');
+        secondRow.style.display = 'flex';
+        secondRow.style.gap = '6px';
+        secondRow.style.justifyContent = 'center';
+        
+        for (let i = 4; i < secretPhrase.length; i++) {
+            const box = document.createElement('div');
+            box.className = 'letter-box';
+            box.id = 'letter-' + i;
+            box.textContent = '?';
+            secondRow.appendChild(box);
+        }
+        container.appendChild(secondRow);
+    }
+
+    function renderStations() {
+        const container = document.getElementById('stations');
+        container.innerHTML = '';
+
+        stations.forEach(station => {
+            const stationDiv = document.createElement('div');
+            stationDiv.className = 'station';
+            stationDiv.id = 'station-' + station.id;
+
+            const isCompleted = completedStations.includes(station.id);
+
+            stationDiv.innerHTML = `
+                <div class="station-header">
+                    <div class="station-title">${station.title}</div>
+                    <div class="station-badge">${isCompleted ? '✓ הושלם' : 'תחנה ' + station.id}</div>
+                </div>
+                <div class="riddle">🤔 ${station.riddle}</div>
+                ${!isCompleted ? `
+                    <div class="input-group">
+                        <input type="text" maxlength="1" class="letter-input" id="input-${station.id}" placeholder="?">
+                        <button class="submit-btn" onclick="checkAnswer(${station.id})">בדוק</button>
+                    </div>
+                    <div id="feedback-${station.id}"></div>
+                ` : `
+                    <div class="feedback success">✅ מצאת את האות: <strong>${station.letter}</strong></div>
+                `}
+            `;
+
+            if (isCompleted) {
+                stationDiv.classList.add('completed');
+            }
+
+            container.appendChild(stationDiv);
+        });
+    }
+
+    function checkAnswer(stationId) {
+        const station = stations.find(s => s.id === stationId);
+        const input = document.getElementById('input-' + stationId);
+        const feedbackDiv = document.getElementById('feedback-' + stationId);
+        const userAnswer = input.value.trim().toUpperCase();
+
+        if (!userAnswer) {
+            feedbackDiv.className = 'feedback error';
+            feedbackDiv.innerHTML = 'נא להזין אות!';
+            return;
+        }
+
+        if (userAnswer === station.letter.toUpperCase()) {
+            completedStations.push(stationId);
+            revealLetter(stationId - 1);
+            feedbackDiv.className = 'feedback success';
+            feedbackDiv.innerHTML = '🎉 מצוין! האות נוספה למילה הסודית!';
+            
+            setTimeout(() => {
+                renderStations();
+                updateProgress();
+                
+                if (completedStations.length === stations.length) {
+                    setTimeout(() => {
+                        document.getElementById('completionModal').classList.add('show');
+                    }, 500);
+                }
+            }, 1000);
+        } else {
+            feedbackDiv.className = 'feedback error';
+            feedbackDiv.innerHTML = '❌ לא נכון, נסה שוב!<br><small>' + station.hint + '</small>';
+        }
+    }
+
+    function revealLetter(index) {
+        // Skip the space at index 3
+        if (index === 3) return;
+        
+        const letterBox = document.getElementById('letter-' + index);
+        if (letterBox) {
+            letterBox.textContent = secretPhrase[index];
+            letterBox.classList.add('revealed');
+        }
+    }
+
+    function updateProgress() {
+        const progress = Math.round((completedStations.length / stations.length) * 100);
+        const progressFill = document.getElementById('progress');
+        progressFill.style.width = progress + '%';
+        progressFill.textContent = progress + '%';
+    }
+
+    // טעינה אוטומטית
+    window.onload = init;
+</script>
+```
+
+</body>
+</html>
